@@ -1,0 +1,60 @@
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item (click)="goToContacto()">
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        Contacto
+      </ion-item>
+      <ion-item routerLink="/home">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        Cerrar Sesión
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content" class="ion-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Página Principal</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title class="heading">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/2560px-Logo_DuocUC.svg.png"
+          alt="Logo"
+          class="logo-img"
+        />
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h1 class="welcome-message">¡Bienvenido, {{ usuario }}!</h1>
+
+      <ion-card id="contenido1" class="attendance-card">
+        <ion-card-header>
+          <ion-card-title>Ingresar asistencia</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <ion-button expand="block" color="primary" (click)="startAttendance()">
+            Escanear Código QR
+          </ion-button>
+          <div id="reader" style="width: 100%; height: 400px;"></div> <!-- Aquí se mostrará el escáner -->
+        </ion-card-content>
+      </ion-card>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
