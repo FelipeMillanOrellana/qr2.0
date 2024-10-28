@@ -13,6 +13,8 @@ export class DashboardPage implements OnInit, OnDestroy {
   usuario: string = '';
   html5QrCode: Html5Qrcode | null = null;
   isScanning: boolean = false;
+  latitud: number | null = null;  // Variable para latitud
+  longitud: number | null = null;  // Variable para longitud
 
   constructor(
     private route: ActivatedRoute,
@@ -28,6 +30,8 @@ export class DashboardPage implements OnInit, OnDestroy {
     });
     this.menu.enable(true, 'first');
     this.html5QrCode = new Html5Qrcode("reader");
+    
+    this.obtenerCoordenadas(); // Llamar al método para obtener coordenadas
   }
 
   ionViewWillEnter() {
@@ -109,6 +113,22 @@ export class DashboardPage implements OnInit, OnDestroy {
       return true;
     } catch (_) {
       return false;
+    }
+  }
+
+  async obtenerCoordenadas() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.latitud = position.coords.latitude;
+          this.longitud = position.coords.longitude;
+        },
+        (error) => {
+          console.error("Error al obtener la geolocalización: ", error);
+        }
+      );
+    } else {
+      console.log("Geolocalización no es soportada por este navegador.");
     }
   }
 
