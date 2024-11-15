@@ -1,7 +1,7 @@
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menú</ion-title>
+      <ion-title>Menú Principal</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -9,17 +9,17 @@
     <ion-list>
       <ion-item (click)="goToContacto()">
         <ion-icon slot="start" name="call-outline"></ion-icon>
-        Contacto
+        <ion-label>Contacto</ion-label>
       </ion-item>
-      <ion-item routerLink="/home">
+      <ion-item (click)="confirmLogout()">
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
-        Cerrar Sesión
+        <ion-label>Cerrar Sesión</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
 
-<ion-content id="main-content" class="ion-content">
+<ion-content id="main-content">
   <ion-header>
     <ion-toolbar>
       <ion-buttons slot="start">
@@ -31,34 +31,44 @@
 
   <ion-card class="welcome-card">
     <ion-card-header>
-      <ion-card-title class="heading">
+      <ion-card-title>
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/2560px-Logo_DuocUC.svg.png"
-          alt="Logo"
+          alt="Logo Duoc UC"
           class="logo-img"
         />
       </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <h1 class="welcome-message">¡Bienvenido, {{ usuario }}!</h1>
+      <h1 class="welcome-message">
+        ¡Bienvenido, {{ usuario && usuario !== 'Invitado' ? usuario : 'Usuario' }}!
+      </h1>
 
-      <ion-card id="contenido1" class="attendance-card">
+      <!-- Sección para la asistencia -->
+      <ion-card id="attendance-section" class="attendance-card">
         <ion-card-header>
-          <ion-card-title>Ingresar asistencia</ion-card-title>
+          <ion-card-title>Ingresar Asistencia</ion-card-title>
         </ion-card-header>
 
         <ion-card-content>
-          <ion-button expand="block" color="primary" (click)="startAttendance()">
-            Escanear Código QR
-          </ion-button>
-          <div id="reader" style="width: 100%; height: 400px;"></div> <!-- Aquí se mostrará el escáner -->
+          <div class="scanner-container">
+            <ion-button
+              expand="block"
+              color="primary"
+              (click)="startAttendance()"
+              aria-label="Iniciar escaneo de código QR"
+            >
+              Escanear Código QR
+            </ion-button>
+            <div id="reader" class="qr-reader"></div>
+          </div>
 
-          <!-- Mostrar la latitud y longitud -->
+          <!-- Mostrar las coordenadas si están disponibles -->
           <div *ngIf="latitud && longitud" class="coordinates">
             <h3>Coordenadas:</h3>
-            <p>Latitud: {{ latitud }}</p>
-            <p>Longitud: {{ longitud }}</p>
+            <p><strong>Latitud:</strong> {{ latitud }}</p>
+            <p><strong>Longitud:</strong> {{ longitud }}</p>
           </div>
         </ion-card-content>
       </ion-card>

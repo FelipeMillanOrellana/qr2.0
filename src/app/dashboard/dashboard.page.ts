@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';  
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MenuController, LoadingController, AlertController } from '@ionic/angular';
+import { MenuController, LoadingController, AlertController, ToastController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { Html5Qrcode } from 'html5-qrcode';
 
@@ -10,36 +10,65 @@ import { Html5Qrcode } from 'html5-qrcode';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit, OnDestroy {
-  usuario: string = '';
+  usuario: string | null = null;
   html5QrCode: Html5Qrcode | null = null;
   isScanning: boolean = false;
-  latitud: number | null = null;  // Variable para latitud
-  longitud: number | null = null;  // Variable para longitud
+  latitud: number | null = null;
+  longitud: number | null = null;
 
   constructor(
     private route: ActivatedRoute,
     private menu: MenuController,
     private navCtrl: NavController,
     private loadingController: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.queryParams.subscribe(params => {
       this.usuario = params['usuario'] || 'Invitado';
     });
+
+  
+
     this.menu.enable(true, 'first');
-    this.html5QrCode = new Html5Qrcode("reader");
-    
-    this.obtenerCoordenadas(); // Llamar al método para obtener coordenadas
+
+    if (!this.html5QrCode) {
+      this.html5QrCode = new Html5Qrcode("reader");
+    }
+
+    this.obtenerCoordenadas();
   }
 
   ionViewWillEnter() {
     this.menu.enable(true, 'first');
   }
 
+  async confirmLogout() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar sesión',
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Cerrar sesión',
+          handler: () => {
+            this.navCtrl.navigateRoot('/home');
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
   goToContacto() {
-    this.navCtrl.navigateForward(['/contacto', { usuario: this.usuario }]);
+    this.navCtrl.navigateForward(['/contacto'], {
+      queryParams: { from: 'dashboard', usuario: this.usuario },
+    });
   }
 
   async startAttendance() {
@@ -73,15 +102,29 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
   }
 
-  handleScanSuccess(decodedText: string) {
+  async handleScanSuccess(decodedText: string) {
     console.log(`Código QR detectado: ${decodedText}`);
 
-    // Verificar si el contenido escaneado es una URL válida
     if (this.isValidUrl(decodedText)) {
-      // Redirigir a la URL escaneada
-      window.location.href = decodedText;
+      const alert = await this.alertController.create({
+        header: 'Redirección',
+        message: `¿Deseas abrir esta URL? <br><strong>${decodedText}</strong>`,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'Abrir',
+            handler: () => {
+              window.location.href = decodedText;
+            },
+          },
+        ],
+      });
+      await alert.present();
     } else {
-      console.log("El código escaneado no es una URL válida.");
+      await this.presentToast("El código escaneado no es una URL válida.");
     }
 
     this.stopScanning();
@@ -93,8 +136,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   async stopScanning() {
     if (this.html5QrCode && this.isScanning) {
-      await this.html5QrCode.stop().catch(err => console.error(`Error al detener el escáner: ${err}`));
-      this.isScanning = false;
+      try {
+        await this.html5QrCode.stop();
+        this.isScanning = false;
+      } catch (err) {
+        console.error(`Error al detener el escáner: ${err}`);
+      }
     }
   }
 
@@ -102,9 +149,18 @@ export class DashboardPage implements OnInit, OnDestroy {
     const alert = await this.alertController.create({
       header,
       message,
-      buttons: ['OK']
+      buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   isValidUrl(url: string): boolean {
@@ -117,18 +173,43 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   async obtenerCoordenadas() {
+    const loading = await this.loadingController.create({
+      message: 'Obteniendo ubicación...',
+    });
+    await loading.present();
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           this.latitud = position.coords.latitude;
           this.longitud = position.coords.longitude;
+          loading.dismiss();
         },
-        (error) => {
-          console.error("Error al obtener la geolocalización: ", error);
+        async (error) => {
+          loading.dismiss();
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error("Permiso de geolocalización denegado.");
+              await this.presentToast("Permiso de geolocalización denegado.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error("La posición no está disponible.");
+              await this.presentToast("No se pudo obtener la ubicación.");
+              break;
+            case error.TIMEOUT:
+              console.error("El tiempo de espera para obtener la posición se agotó.");
+              await this.presentToast("Tiempo de espera agotado al obtener ubicación.");
+              break;
+            default:
+              console.error("Error desconocido al obtener geolocalización.");
+              await this.presentToast("Error desconocido al obtener ubicación.");
+              break;
+          }
         }
       );
     } else {
-      console.log("Geolocalización no es soportada por este navegador.");
+      await this.presentToast("Tu navegador no soporta geolocalización.");
+      loading.dismiss();
     }
   }
 

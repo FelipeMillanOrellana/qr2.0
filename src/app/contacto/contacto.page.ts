@@ -9,7 +9,8 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./contacto.page.scss'],
 })
 export class ContactoPage implements OnInit {
-  usuario: string = "";
+  usuario: string = '';
+  from: string = ''; // Para rastrear de dónde viene la navegación
   contact = {
     name: '',
     email: '',
@@ -20,14 +21,17 @@ export class ContactoPage implements OnInit {
     private menu: MenuController,
     private route: ActivatedRoute,
     private alertController: AlertController,
-    private router: Router // Inyecta el Router para navegación
+    private router: Router
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.usuario = params['usuario'] ? params['usuario'] : 'Invitado';
+    // Obtener parámetros de navegación
+    this.route.queryParams.subscribe(params => {
+      this.from = params['from'] || ''; // De dónde viene la navegación
+      this.usuario = params['usuario'] || 'Invitado'; // Si existe usuario, lo asigna
     });
 
+    // Habilitar el menú lateral
     this.menu.enable(true, 'first');
   }
 
@@ -38,7 +42,6 @@ export class ContactoPage implements OnInit {
   async onSubmit() {
     console.log('Formulario enviado', this.contact);
 
-    // Muestra un mensaje de confirmación
     const alert = await this.alertController.create({
       header: 'Enviado',
       message: '¡Gracias por tus sugerencias!',
@@ -46,12 +49,18 @@ export class ContactoPage implements OnInit {
     });
     await alert.present();
 
-    // Limpiar los campos después de enviar
     this.contact.email = '';
     this.contact.message = '';
   }
 
-  goToDashboard() {
-    this.router.navigate(['/dashboard']);
+  // Regresar a la página previa
+  goBack() {
+    if (this.from === 'profesor') {
+      this.router.navigate(['/profesor']);
+    } else if (this.from === 'dashboard') {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/home']); // Navegación predeterminada si no hay contexto
+    }
   }
 }

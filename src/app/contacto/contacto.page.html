@@ -29,8 +29,8 @@
       </ion-buttons>
       <ion-title>Enviar Sugerencias</ion-title>
       <ion-buttons slot="end">
-        <!-- Botón para regresar al Dashboard -->
-        <ion-button (click)="goToDashboard()">
+        <!-- Botón para regresar según el contexto -->
+        <ion-button (click)="goBack()">
           <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
         </ion-button>
       </ion-buttons>
@@ -45,22 +45,44 @@
       <ion-row>
         <ion-col size="12" size-md="8" offset-md="2">
           <form (ngSubmit)="onSubmit()">
+            <!-- Nombre mostrado como texto -->
             <ion-item>
-              <ion-label position="floating">Nombre</ion-label>
-              <ion-input [(ngModel)]="contact.name" name="name" required placeholder="{{ usuario }}" disabled></ion-input>
+              <ion-label position="stacked">Nombre</ion-label>
+              <ion-input
+                [value]="usuario"
+                disabled
+                placeholder="Invitado"
+              ></ion-input>
             </ion-item>
 
+            <!-- Correo Electrónico -->
             <ion-item>
-              <ion-label position="floating">Correo Electrónico</ion-label>
-              <ion-input [(ngModel)]="contact.email" name="email" type="email" required></ion-input>
+              <ion-label position="stacked">Correo Electrónico</ion-label>
+              <ion-input
+                [(ngModel)]="contact.email"
+                name="email"
+                type="email"
+                required
+              ></ion-input>
             </ion-item>
 
+            <!-- Mensaje -->
             <ion-item>
-              <ion-label position="floating">Mensaje</ion-label>
-              <ion-textarea [(ngModel)]="contact.message" name="message" required></ion-textarea>
+              <ion-label position="stacked">Mensaje</ion-label>
+              <ion-textarea
+                [(ngModel)]="contact.message"
+                name="message"
+                required
+              ></ion-textarea>
             </ion-item>
 
-            <ion-button expand="block" color="success" type="submit" class="ion-margin-top">
+            <!-- Botón de envío -->
+            <ion-button
+              expand="block"
+              color="success"
+              type="submit"
+              class="ion-margin-top"
+            >
               Enviar
             </ion-button>
           </form>

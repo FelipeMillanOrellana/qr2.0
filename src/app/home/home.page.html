@@ -11,11 +11,7 @@
 
     <ion-card-content>
       <ion-item class="inputContainer">
-        <ion-icon
-          slot="start"
-          name="person-outline"
-          class="inputIcon"
-        ></ion-icon>
+        <ion-icon slot="start" name="person-outline" class="inputIcon"></ion-icon>
         <ion-input
           [(ngModel)]="usuario"
           placeholder="Usuario"
@@ -26,11 +22,7 @@
       </ion-item>
 
       <ion-item class="inputContainer">
-        <ion-icon
-          slot="start"
-          name="lock-closed-outline"
-          class="inputIcon"
-        ></ion-icon>
+        <ion-icon slot="start" name="lock-closed-outline" class="inputIcon"></ion-icon>
         <ion-input
           [(ngModel)]="password"
           placeholder="Contraseña"
@@ -42,9 +34,25 @@
 
       <div class="signupContainer ion-text-center">
         <a routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
-
-        <ion-button id="button" (click)="goToDashboard()"> Ingresar </ion-button>
       </div>
+
+      <ion-button
+        id="button"
+        (click)="goToDashboard('profesor')"
+        expand="full"
+        color="primary"
+      >
+        Ingresar como Profesor
+      </ion-button>
+
+      <ion-button
+        id="button"
+        (click)="goToDashboard('estudiante')"
+        expand="full"
+        color="secondary"
+      >
+        Ingresar como Estudiante
+      </ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>
