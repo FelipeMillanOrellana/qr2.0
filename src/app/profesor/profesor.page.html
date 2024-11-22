@@ -25,6 +25,7 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
+<<<<<<< HEAD
       <ion-title>Página del Profesor</ion-title>
     </ion-toolbar>
   </ion-header>
@@ -79,6 +80,38 @@
           </ion-button>
         </ion-item>
       </ion-list>
+=======
+      <ion-title>Página Principal</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title class="heading">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/2560px-Logo_DuocUC.svg.png"
+          alt="Logo"
+          class="logo-img"
+        />
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h1 class="welcome-message">¡Bienvenido, {{ usuario }}!</h1>
+
+      <ion-card class="feature-card">
+        <ion-card-header>
+          <ion-card-title>Opciones</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <!-- Placeholder para futuras opciones -->
+          <ion-button expand="block" color="secondary" (click)="generateQRCode()">
+            Generar Código QR
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+>>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     </ion-card-content>
   </ion-card>
 </ion-content>

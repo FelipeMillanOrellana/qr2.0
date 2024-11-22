@@ -14,6 +14,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.0.0",
+<<<<<<< HEAD
     "@angular/common": "^18.2.12",
     "@angular/compiler": "^18.2.12",
     "@angular/core": "^18.2.12",
@@ -21,6 +22,15 @@
     "@angular/platform-browser": "^18.2.12",
     "@angular/platform-browser-dynamic": "^18.2.12",
     "@angular/router": "^18.2.12",
+=======
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
+>>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     "@capacitor-community/barcode-scanner": "^4.0.1",
     "@capacitor-mlkit/barcode-scanning": "^6.2.0",
     "@capacitor/android": "^6.1.2",
@@ -31,7 +41,11 @@
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/status-bar": "6.0.1",
+<<<<<<< HEAD
     "@ionic/angular": "^8.4.0",
+=======
+    "@ionic/angular": "^8.0.0",
+>>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     "@ionic/storage-angular": "^4.0.0",
     "angularx-qrcode": "^18.0.2",
     "axios": "^1.7.7",
@@ -54,6 +68,7 @@
     "@angular/language-service": "^18.0.0",
     "@capacitor/cli": "6.1.2",
     "@ionic/angular-toolkit": "^11.0.1",
+<<<<<<< HEAD
     "@types/bonjour": "^3.5.13",
     "@types/estree": "^1.0.6",
     "@types/jasmine": "~5.1.0",
@@ -65,6 +80,9 @@
     "@types/serve-static": "^1.15.7",
     "@types/slice-ansi": "^5.0.2",
     "@types/wrap-ansi": "^8.0.2",
+=======
+    "@types/jasmine": "~5.1.0",
+>>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "eslint": "^8.57.0",
