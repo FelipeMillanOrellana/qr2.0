@@ -1,0 +1,33 @@
+ion-card {
+  margin: 20px;
+}
+
+ion-card-header {
+  background-color: #326cf1;
+  border-radius: 10px 10px 0 0;
+}
+
+ion-card-title {
+  font-weight: bold;
+}
+
+ion-card-content {
+  padding: 15px;
+}
+
+ion-list {
+  margin: 0;
+}
+
+ion-item {
+  --inner-padding-end: 0;
+}
+
+qrcode {
+  display: block;
+  margin: auto;
+}
+
+button {
+  margin-top: 10px;
+}

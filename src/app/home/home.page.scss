@@ -1,0 +1,107 @@
+ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #e0eafc, #cfdef3); /* Fondo degradado */
+  padding: 20px; /* Espacio alrededor del contenido */
+}
+
+ion-card {
+  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  height: auto; /* Permite que la tarjeta ajuste su altura */
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  overflow: hidden; /* Para bordes redondeados en las esquinas */
+}
+
+ion-card-content {
+  margin-top: 20px; /* Reducido para que se vea más compacto */
+  padding: 20px; /* Espacio interior */
+}
+
+.heading {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.heading img {
+  width: 70%;
+  height: auto; /* Mantiene la relación de aspecto */
+}
+
+.inputContainer {
+  width: 100%;
+  margin-bottom: 30px; /* Espacio entre los inputs */
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 10px; /* Ajustado para estar más centrado */
+  top: 50%; /* Centrando verticalmente */
+  transform: translateY(-50%);
+  color: var(--ion-color-primary, #007bff); /* Color del icono más destacado */
+}
+
+.inputField {
+  width: 100%;
+  height: 50px; /* Altura aumentada para mejor visibilidad */
+  margin-left: 40px; /* Deja espacio para el icono */
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid var(--ion-color-medium, #aaa); /* Color más suave para el borde */
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border-bottom 0.3s; /* Suave transición */
+}
+
+.inputField:focus {
+  outline: none;
+  border-bottom: 2px solid var(--ion-color-primary, #007bff); /* Color de enfoque */
+}
+
+#button {
+  margin-top: 20px;
+  width: 100%;
+  height: 50px;
+  background-color: var(--ion-color-primary, #007bff); /* Color del botón */
+  border-radius: 30px;
+  color: white; /* Texto en blanco */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Transición al pasar el ratón */
+}
+
+#button:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+}
+
+.signupContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signupContainer p {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #555; /* Texto en gris oscuro para contraste */
+}
+
+#recu {
+  margin: 0 auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ion-color-primary, #007bff); /* Enlace resaltado */
+  text-decoration: none;
+  transition: color 0.3s; /* Transición de color */
+}
+
+#recu:hover {
+  color: #0056b3; /* Color más oscuro al pasar el ratón */
+}

@@ -1,0 +1,84 @@
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item (click)="goToContacto()">
+        <ion-icon slot="start" name="call-outline"></ion-icon>
+        Contacto
+      </ion-item>
+      <ion-item routerLink="/home">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        Cerrar Sesión
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-content id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Página del Profesor</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Generador de QR para el profesor -->
+  <ion-card>
+    <ion-card-content>
+      <div *ngIf="qrData" style="margin-top: 20px; text-align: center;">
+        <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+        <p>Escanea este código QR para obtener la información.</p>
+        <ion-button color="light" (click)="hideQRCode()">Ocultar QR</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Registro y lista de asignaturas -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registrar Asignatura</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="floating">Nombre de la Asignatura</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.nombre"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Sección</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.seccion"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="primary" (click)="registrarAsignatura()">
+        Registrar
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de Asignaturas</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let asignatura of asignaturas">
+          <ion-label>
+            <h2>{{ asignatura.nombre }}</h2>
+            <p>Sección: {{ asignatura.seccion }}</p>
+          </ion-label>
+          <ion-button color="secondary" (click)="generarQRAsignatura(asignatura)">
+            Generar QR
+          </ion-button>
+          <ion-button color="danger" (click)="eliminarAsignatura(asignatura.id)">
+            Eliminar
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,114 @@
+ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to right, #e0f7fa, #80deea);
+}
+
+
+ion-card {
+  margin: auto;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+
+.heading {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.heading img {
+  width: 70%;
+  height: auto;
+}
+
+
+.inputContainer {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ion-color-primary, #007BFF);
+}
+
+.inputField {
+  width: 100%;
+  height: 50px;
+  padding-left: 40px;
+  border: none;
+  border-bottom: 2px solid var(--ion-color-medium, #ccc);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.inputField:focus {
+  border-bottom: 2px solid var(--ion-color-primary, #007BFF);
+}
+
+
+#button {
+  width: 100%;
+  height: 50px;
+  background-color: var(--ion-color-primary, #007BFF);
+  border-radius: 30px;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#button:hover {
+  background-color: #0056b3;
+}
+
+
+.logout-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--ion-color-danger, #FF3B30); /* Color del texto de logout */
+}
+
+ion-menu-button {
+  --color: var(--ion-color-primary, #007BFF); /* Color del icono */
+  --icon-size: 24px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --margin-start: 0;
+  --margin-end: 0;
+}
+
+#contenido1 {
+  width: 75%;
+  margin-top: 80px;
+  align-items: center;
+}
+
+.signupContainer {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.signupContainer a {
+  font-size: 0.85rem;
+  color: var(--ion-color-primary, #007BFF); /* Color del enlace más limpio */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.signupContainer a:hover {
+  color: #0056b3; /* Interacción de color al hover */
+}
