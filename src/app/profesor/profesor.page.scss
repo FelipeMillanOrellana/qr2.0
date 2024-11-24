@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/* Estilos generales para ion-card */
 ion-card {
   margin: 20px;
 }
@@ -16,6 +16,7 @@ ion-card-content {
   padding: 15px;
 }
 
+/* Estilos para listas y elementos */
 ion-list {
   margin: 0;
 }
@@ -24,37 +25,39 @@ ion-item {
   --inner-padding-end: 0;
 }
 
+/* Estilos para el componente qrcode */
 qrcode {
   display: block;
   margin: auto;
 }
 
+/* Estilos para botones */
 button {
   margin-top: 10px;
 }
-=======
+
+/* Estilos específicos para tarjetas de bienvenida */
 .welcome-card {
-    text-align: center;
-    margin: 20px;
-  }
-  
-  .heading img {
-    max-width: 150px;
-    margin: 0 auto;
-  }
-  
-  .welcome-message {
-    font-size: 1.5rem;
-    color: #333;
-  }
-  
-  .feature-card {
-    margin-top: 20px;
-  }
-  
-  .logo-img {
-    max-width: 100%;
-    height: auto;
-  }
-  
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
+  text-align: center;
+  margin: 20px;
+}
+
+.heading img {
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Estilos para tarjetas de características */
+.feature-card {
+  margin-top: 20px;
+}
+
+.logo-img {
+  max-width: 100%;
+  height: auto;
+}

@@ -15,10 +15,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   isScanning: boolean = false;
   latitud: number | null = null;
   longitud: number | null = null;
-<<<<<<< HEAD
   scannedStudents: any[] = []; // Lista de estudiantes que han escaneado el QR
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
 
   constructor(
     private route: ActivatedRoute,
@@ -34,11 +31,6 @@ export class DashboardPage implements OnInit, OnDestroy {
       this.usuario = params['usuario'] || 'Invitado';
     });
 
-<<<<<<< HEAD
-=======
-  
-
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     this.menu.enable(true, 'first');
 
     if (!this.html5QrCode) {
@@ -46,20 +38,14 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
 
     this.obtenerCoordenadas();
-<<<<<<< HEAD
     this.loadScannedStudents(); // Cargar estudiantes almacenados en localStorage
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   }
 
   ionViewWillEnter() {
     this.menu.enable(true, 'first');
   }
 
-<<<<<<< HEAD
   // Confirmación para cerrar sesión
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async confirmLogout() {
     const alert = await this.alertController.create({
       header: 'Cerrar sesión',
@@ -80,20 +66,14 @@ export class DashboardPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-<<<<<<< HEAD
   // Ir a la página de contacto
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   goToContacto() {
     this.navCtrl.navigateForward(['/contacto'], {
       queryParams: { from: 'dashboard', usuario: this.usuario },
     });
   }
 
-<<<<<<< HEAD
   // Iniciar escaneo del QR
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async startAttendance() {
     if (this.isScanning || !this.html5QrCode) return;
 
@@ -125,7 +105,6 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
   // Manejar el éxito del escaneo
   async handleScanSuccess(decodedText: string) {
     console.log(`Código QR detectado: ${decodedText}`);
@@ -147,31 +126,6 @@ export class DashboardPage implements OnInit, OnDestroy {
       await this.presentToast("Asistencia registrada exitosamente.");
     } else {
       await this.presentToast("Este estudiante ya ha registrado asistencia.");
-=======
-  async handleScanSuccess(decodedText: string) {
-    console.log(`Código QR detectado: ${decodedText}`);
-
-    if (this.isValidUrl(decodedText)) {
-      const alert = await this.alertController.create({
-        header: 'Redirección',
-        message: `¿Deseas abrir esta URL? <br><strong>${decodedText}</strong>`,
-        buttons: [
-          {
-            text: 'Cancelar',
-            role: 'cancel',
-          },
-          {
-            text: 'Abrir',
-            handler: () => {
-              window.location.href = decodedText;
-            },
-          },
-        ],
-      });
-      await alert.present();
-    } else {
-      await this.presentToast("El código escaneado no es una URL válida.");
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     }
 
     this.stopScanning();
@@ -181,10 +135,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     console.log(`Error en el escaneo: ${errorMessage}`);
   }
 
-<<<<<<< HEAD
   // Detener escaneo
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async stopScanning() {
     if (this.html5QrCode && this.isScanning) {
       try {
@@ -196,7 +147,6 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
   }
 
-<<<<<<< HEAD
   // Cargar lista de estudiantes desde el localStorage
   loadScannedStudents() {
     const storedData = localStorage.getItem('scannedStudents');
@@ -204,8 +154,6 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   // Mostrar alerta
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
@@ -215,10 +163,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-<<<<<<< HEAD
   // Mostrar notificación
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async presentToast(message: string) {
     const toast = await this.toastController.create({
       message,
@@ -228,19 +173,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     await toast.present();
   }
 
-<<<<<<< HEAD
   // Obtener coordenadas
-=======
-  isValidUrl(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
   async obtenerCoordenadas() {
     const loading = await this.loadingController.create({
       message: 'Obteniendo ubicación...',
@@ -256,28 +189,7 @@ export class DashboardPage implements OnInit, OnDestroy {
         },
         async (error) => {
           loading.dismiss();
-<<<<<<< HEAD
           await this.presentToast("Error al obtener ubicación.");
-=======
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              console.error("Permiso de geolocalización denegado.");
-              await this.presentToast("Permiso de geolocalización denegado.");
-              break;
-            case error.POSITION_UNAVAILABLE:
-              console.error("La posición no está disponible.");
-              await this.presentToast("No se pudo obtener la ubicación.");
-              break;
-            case error.TIMEOUT:
-              console.error("El tiempo de espera para obtener la posición se agotó.");
-              await this.presentToast("Tiempo de espera agotado al obtener ubicación.");
-              break;
-            default:
-              console.error("Error desconocido al obtener geolocalización.");
-              await this.presentToast("Error desconocido al obtener ubicación.");
-              break;
-          }
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
         }
       );
     } else {

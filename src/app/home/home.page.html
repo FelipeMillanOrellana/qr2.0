@@ -10,6 +10,7 @@
     </ion-card-header>
 
     <ion-card-content>
+      <!-- Usuario Input -->
       <ion-item class="inputContainer">
         <ion-icon slot="start" name="person-outline" class="inputIcon"></ion-icon>
         <ion-input
@@ -21,6 +22,7 @@
         ></ion-input>
       </ion-item>
 
+      <!-- Contraseña Input -->
       <ion-item class="inputContainer">
         <ion-icon slot="start" name="lock-closed-outline" class="inputIcon"></ion-icon>
         <ion-input
@@ -32,18 +34,16 @@
         ></ion-input>
       </ion-item>
 
+      <!-- Links for Password Recovery and Registration -->
       <div class="signupContainer ion-text-center">
         <a routerLink="/recuperar">¿Olvidaste tu contraseña?</a>
       </div>
 
-<<<<<<< HEAD
-      <!-- Nuevo enlace para registrarse -->
       <div class="signupContainer ion-text-center">
         <a routerLink="/registrarse">¿No tienes una cuenta? Regístrate aquí</a>
       </div>
 
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
+      <!-- Login Buttons -->
       <ion-button
         id="button"
         (click)="goToDashboard('profesor')"

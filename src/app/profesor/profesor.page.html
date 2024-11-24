@@ -25,19 +25,41 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-<<<<<<< HEAD
       <ion-title>Página del Profesor</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <!-- Bienvenida -->
+  <ion-card class="welcome-card">
+    <ion-card-header>
+      <ion-card-title>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/2560px-Logo_DuocUC.svg.png"
+          alt="Logo"
+          class="logo-img"
+        />
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <h1 class="welcome-message">¡Bienvenido, {{ usuario }}!</h1>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Generador de QR para el profesor -->
   <ion-card>
+    <ion-card-header>
+      <ion-card-title>Generador de Código QR</ion-card-title>
+    </ion-card-header>
     <ion-card-content>
       <div *ngIf="qrData" style="margin-top: 20px; text-align: center;">
         <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
         <p>Escanea este código QR para obtener la información.</p>
         <ion-button color="light" (click)="hideQRCode()">Ocultar QR</ion-button>
       </div>
+      <ion-button expand="block" color="secondary" (click)="generateQRCode()">
+        Generar Código QR Personal
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
@@ -80,38 +102,6 @@
           </ion-button>
         </ion-item>
       </ion-list>
-=======
-      <ion-title>Página Principal</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <ion-card class="welcome-card">
-    <ion-card-header>
-      <ion-card-title class="heading">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Logo_DuocUC.svg/2560px-Logo_DuocUC.svg.png"
-          alt="Logo"
-          class="logo-img"
-        />
-      </ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      <h1 class="welcome-message">¡Bienvenido, {{ usuario }}!</h1>
-
-      <ion-card class="feature-card">
-        <ion-card-header>
-          <ion-card-title>Opciones</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <!-- Placeholder para futuras opciones -->
-          <ion-button expand="block" color="secondary" (click)="generateQRCode()">
-            Generar Código QR
-          </ion-button>
-        </ion-card-content>
-      </ion-card>
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     </ion-card-content>
   </ion-card>
 </ion-content>

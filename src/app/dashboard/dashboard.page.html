@@ -7,10 +7,13 @@
 
   <ion-content>
     <ion-list>
+      <!-- Contacto -->
       <ion-item (click)="goToContacto()">
         <ion-icon slot="start" name="call-outline"></ion-icon>
         <ion-label>Contacto</ion-label>
       </ion-item>
+
+      <!-- Cerrar Sesión -->
       <ion-item (click)="confirmLogout()">
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
         <ion-label>Cerrar Sesión</ion-label>
@@ -41,17 +44,19 @@
     </ion-card-header>
 
     <ion-card-content>
+      <!-- Welcome Message -->
       <h1 class="welcome-message">
         ¡Bienvenido, {{ usuario && usuario !== 'Invitado' ? usuario : 'Usuario' }}!
       </h1>
 
-      <!-- Sección para la asistencia -->
+      <!-- Sección para Ingresar Asistencia -->
       <ion-card id="attendance-section" class="attendance-card">
         <ion-card-header>
           <ion-card-title>Ingresar Asistencia</ion-card-title>
         </ion-card-header>
 
         <ion-card-content>
+          <!-- Botón para escanear QR -->
           <div class="scanner-container">
             <ion-button
               expand="block"
@@ -64,7 +69,7 @@
             <div id="reader" class="qr-reader"></div>
           </div>
 
-          <!-- Mostrar las coordenadas si están disponibles -->
+          <!-- Mostrar coordenadas (si están disponibles) -->
           <div *ngIf="latitud && longitud" class="coordinates">
             <h3>Coordenadas:</h3>
             <p><strong>Latitud:</strong> {{ latitud }}</p>
@@ -72,9 +77,8 @@
           </div>
         </ion-card-content>
       </ion-card>
-<<<<<<< HEAD
 
-      <!-- Nueva sección para mostrar la lista de estudiantes -->
+      <!-- Lista de Estudiantes Escaneados -->
       <ion-card id="scanned-students-section" class="scanned-students-card">
         <ion-card-header>
           <ion-card-title>Lista de Estudiantes Escaneados</ion-card-title>
@@ -98,8 +102,6 @@
           </ng-template>
         </ion-card-content>
       </ion-card>
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     </ion-card-content>
   </ion-card>
 </ion-content>

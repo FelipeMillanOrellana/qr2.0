@@ -1,17 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-<<<<<<< HEAD
 import { Router } from '@angular/router';
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
 import { ProfesorPage } from './profesor.page';
 
 describe('ProfesorPage', () => {
   let component: ProfesorPage;
   let fixture: ComponentFixture<ProfesorPage>;
-<<<<<<< HEAD
   let mockRouter: jest.Mocked<Router>;
 
   beforeEach(() => {
+    // Crear un mock para el Router
     mockRouter = {
       navigate: jest.fn(),
     } as unknown as jest.Mocked<Router>;
@@ -21,10 +18,6 @@ describe('ProfesorPage', () => {
       providers: [{ provide: Router, useValue: mockRouter }],
     }).compileComponents();
 
-=======
-
-  beforeEach(() => {
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
     fixture = TestBed.createComponent(ProfesorPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -33,7 +26,6 @@ describe('ProfesorPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-<<<<<<< HEAD
 
   it('should generate a personal QR code', () => {
     component.generateQRCode();
@@ -72,6 +64,4 @@ describe('ProfesorPage', () => {
     component.logOut();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']);
   });
-=======
->>>>>>> c7382611ed3b0ad9493963a20194cec4a7cb8bb3
 });
