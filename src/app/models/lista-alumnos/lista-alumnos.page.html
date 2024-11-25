@@ -1,32 +1,28 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Lista de Alumnos</ion-title>
+    <ion-title>Lista de Estudiantes Escaneados</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <ion-list>
+    <ion-item *ngFor="let estudiante of estudiantes">
+      <ion-label>
+        <h2>{{ estudiante.asignatura }}</h2>
+        <p>Sección: {{ estudiante.seccion }}</p>
+        <p>Sala: {{ estudiante.sala }}</p>
+        <p>Fecha: {{ estudiante.fecha }}</p>
+      </ion-label>
+      <ion-button color="danger" (click)="eliminarEstudiante(estudiante.id)">
+        Eliminar
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Mensaje cuando no hay estudiantes -->
+  <ion-card *ngIf="estudiantes.length === 0">
     <ion-card-header>
-      <ion-card-title>Estudiantes Escaneados</ion-card-title>
+      <ion-card-title>No hay estudiantes registrados</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item *ngFor="let alumno of alumnosEscaneados; let i = index">
-          <ion-label>
-            <h2>{{ alumno.nombre }}</h2>
-            <p>Fecha: {{ alumno.fecha | date: 'short' }}</p>
-            <p>Latitud: {{ alumno.latitud }}</p>
-            <p>Longitud: {{ alumno.longitud }}</p>
-          </ion-label>
-          <ion-button color="danger" (click)="eliminarAlumno(i)">
-            Eliminar
-          </ion-button>
-        </ion-item>
-      </ion-list>
-      <p *ngIf="alumnosEscaneados.length === 0">No hay alumnos registrados.</p>
-    </ion-card-content>
   </ion-card>
 </ion-content>

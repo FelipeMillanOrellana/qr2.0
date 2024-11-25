@@ -42,66 +42,56 @@
         />
       </ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <!-- Welcome Message -->
       <h1 class="welcome-message">
         ¡Bienvenido, {{ usuario && usuario !== 'Invitado' ? usuario : 'Usuario' }}!
       </h1>
+    </ion-card-content>
+  </ion-card>
 
-      <!-- Sección para Ingresar Asistencia -->
-      <ion-card id="attendance-section" class="attendance-card">
-        <ion-card-header>
-          <ion-card-title>Ingresar Asistencia</ion-card-title>
-        </ion-card-header>
+  <!-- Sección para Escanear Código QR -->
+  <ion-card id="attendance-section" class="attendance-card">
+    <ion-card-header>
+      <ion-card-title>Ingresar Asistencia</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="scanner-container">
+        <ion-button
+          expand="block"
+          color="primary"
+          (click)="startAttendance()"
+          aria-label="Iniciar escaneo de código QR"
+        >
+          Escanear Código QR
+        </ion-button>
+        <div id="reader" class="qr-reader"></div>
+      </div>
+      <div *ngIf="latitud && longitud" class="coordinates">
+        <h3>Coordenadas:</h3>
+        <p><strong>Latitud:</strong> {{ latitud }}</p>
+        <p><strong>Longitud:</strong> {{ longitud }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
-        <ion-card-content>
-          <!-- Botón para escanear QR -->
-          <div class="scanner-container">
-            <ion-button
-              expand="block"
-              color="primary"
-              (click)="startAttendance()"
-              aria-label="Iniciar escaneo de código QR"
-            >
-              Escanear Código QR
-            </ion-button>
-            <div id="reader" class="qr-reader"></div>
-          </div>
-
-          <!-- Mostrar coordenadas (si están disponibles) -->
-          <div *ngIf="latitud && longitud" class="coordinates">
-            <h3>Coordenadas:</h3>
-            <p><strong>Latitud:</strong> {{ latitud }}</p>
-            <p><strong>Longitud:</strong> {{ longitud }}</p>
-          </div>
-        </ion-card-content>
-      </ion-card>
-
-      <!-- Lista de Estudiantes Escaneados -->
-      <ion-card id="scanned-students-section" class="scanned-students-card">
-        <ion-card-header>
-          <ion-card-title>Lista de Estudiantes Escaneados</ion-card-title>
-        </ion-card-header>
-
-        <ion-card-content>
-          <div *ngIf="scannedStudents.length > 0; else noStudents">
-            <ion-list>
-              <ion-item *ngFor="let student of scannedStudents">
-                <ion-label>
-                  <h2>{{ student.codigo }}</h2>
-                  <p>Fecha: {{ student.fecha | date: 'short' }}</p>
-                  <p>Latitud: {{ student.coordenadas.latitud }}</p>
-                  <p>Longitud: {{ student.coordenadas.longitud }}</p>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </div>
-          <ng-template #noStudents>
-            <p>No hay registros de estudiantes escaneados.</p>
-          </ng-template>
-        </ion-card-content>
-      </ion-card>
+  <!-- Lista de Alumnos Escaneados -->
+  <ion-card class="attendance-list-card">
+    <ion-card-header>
+      <ion-card-title>Lista de Alumnos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="scannedStudents.length > 0; else emptyList">
+        <ion-item *ngFor="let student of scannedStudents">
+          <ion-label>
+            <h2>Código: {{ student.codigo }}</h2>
+            <p>Fecha: {{ student.fecha | date: 'short' }}</p>
+            <p>Coordenadas: {{ student.coordenadas.latitud }}, {{ student.coordenadas.longitud }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+      <ng-template #emptyList>
+        <p class="ion-text-center">No hay alumnos registrados aún.</p>
+      </ng-template>
     </ion-card-content>
   </ion-card>
 </ion-content>

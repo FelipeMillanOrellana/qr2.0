@@ -1,88 +1,114 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Asignatura } from '../models/asignatura.model';
+import { Component } from '@angular/core';
+import { NavController, ToastController, AlertController } from '@ionic/angular';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-profesor',
   templateUrl: './profesor.page.html',
   styleUrls: ['./profesor.page.scss'],
 })
-export class ProfesorPage implements OnInit {
+export class ProfesorPage {
   usuario: string = 'Profesor'; // Nombre del usuario
-  qrData: string | null = null; // Datos para el QR
-  isQRCodeVisible: boolean = false; // Controla la visibilidad del QR
-  asignaturas: Asignatura[] = []; // Lista de asignaturas
-  nuevaAsignatura: Asignatura = { id: '', nombre: '', seccion: '' }; // Modelo de nueva asignatura
+  nuevaAsignatura = { nombre: '', seccion: '' }; // Modelo de asignatura
+  asignaturas: { id: string; nombre: string; seccion: string }[] = []; // Lista de asignaturas
+  qrData: string | null = null; // Datos para generar el QR
 
-  constructor(private router: Router) {}
-
-  ngOnInit() {
-    this.cargarAsignaturas();
-  }
+  constructor(
+    private navCtrl: NavController,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {}
 
   // Navegar a la página de contacto
   goToContacto() {
-    this.router.navigate(['/contacto'], {
-      queryParams: { from: 'profesor', usuario: this.usuario },
-    });
+    this.navCtrl.navigateForward(['/contacto']);
   }
 
-  // Generar QR para el usuario
-  generateQRCode() {
-    this.qrData = `PROFESOR|${this.usuario}|${new Date().toISOString()}`;
-    this.isQRCodeVisible = true;
-    console.log('QR Data generado:', this.qrData);
+  // Navegar a la lista de alumnos
+  goToListaAlumnos() {
+    this.navCtrl.navigateForward(['/lista-alumnos']);
   }
 
   // Registrar una nueva asignatura
-  registrarAsignatura() {
-    if (this.nuevaAsignatura.nombre && this.nuevaAsignatura.seccion) {
-      const nueva: Asignatura = {
-        ...this.nuevaAsignatura,
-        id: Date.now().toString(), // ID único basado en la fecha
-      };
-      this.asignaturas.push(nueva);
-      this.guardarAsignaturas();
-      this.nuevaAsignatura = { id: '', nombre: '', seccion: '' }; // Resetear formulario
-      console.log('Asignatura registrada:', nueva);
-    } else {
-      console.error('Por favor completa todos los campos.');
+  async registrarAsignatura() {
+    if (!this.nuevaAsignatura.nombre || !this.nuevaAsignatura.seccion) {
+      await this.presentToast('Por favor completa todos los campos');
+      return;
     }
+
+    const nueva = {
+      id: uuidv4(),
+      nombre: this.nuevaAsignatura.nombre,
+      seccion: this.nuevaAsignatura.seccion,
+    };
+
+    this.asignaturas.push(nueva);
+    this.nuevaAsignatura = { nombre: '', seccion: '' }; // Limpiar campos
+
+    await this.presentToast('Asignatura registrada exitosamente.');
   }
 
-  // Generar QR para una asignatura específica
-  generarQRAsignatura(asignatura: Asignatura) {
-    this.qrData = `ASIGNATURA|${asignatura.nombre}|SECCION|${asignatura.seccion}|FECHA|${new Date().toISOString()}`;
-    this.isQRCodeVisible = true;
-    console.log('QR generado para la asignatura:', this.qrData);
+  // Generar QR para una asignatura
+  generarQRAsignatura(asignatura: { id: string; nombre: string; seccion: string }) {
+    this.qrData = JSON.stringify({
+      id: asignatura.id,
+      nombre: asignatura.nombre,
+      seccion: asignatura.seccion,
+    });
   }
 
-  // Ocultar QR
-  hideQRCode() {
-    this.isQRCodeVisible = false;
-  }
+  // Eliminar asignatura
+  async eliminarAsignatura(id: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar eliminación',
+      message: '¿Estás seguro de eliminar esta asignatura?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.asignaturas = this.asignaturas.filter(a => a.id !== id);
+            this.presentToast('Asignatura eliminada exitosamente.');
+          },
+        },
+      ],
+    });
 
-  // Guardar asignaturas en localStorage
-  guardarAsignaturas() {
-    localStorage.setItem('asignaturasProfesor', JSON.stringify(this.asignaturas));
-  }
-
-  // Cargar asignaturas desde localStorage
-  cargarAsignaturas() {
-    const storedData = localStorage.getItem('asignaturasProfesor');
-    this.asignaturas = storedData ? JSON.parse(storedData) : [];
-  }
-
-  // Eliminar una asignatura
-  eliminarAsignatura(id: string) {
-    this.asignaturas = this.asignaturas.filter(asignatura => asignatura.id !== id);
-    this.guardarAsignaturas();
-    console.log(`Asignatura con ID ${id} eliminada.`);
+    await alert.present();
   }
 
   // Cerrar sesión
-  logOut() {
-    console.log('Cerrando sesión...');
-    this.router.navigate(['/login']);
+  async logOut() {
+    const alert = await this.alertController.create({
+      header: 'Cerrar sesión',
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+        },
+        {
+          text: 'Cerrar sesión',
+          handler: () => {
+            this.navCtrl.navigateRoot('/home');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  // Mostrar notificaciones
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 }

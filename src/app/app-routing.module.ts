@@ -5,7 +5,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('./home/home.module').then(m => m.HomePageModule),
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: '',
@@ -15,31 +15,36 @@ const routes: Routes = [
   {
     path: 'recuperar',
     loadChildren: () =>
-      import('./recuperar/recuperar.module').then(m => m.RecuperarPageModule),
+      import('./recuperar/recuperar.module').then((m) => m.RecuperarPageModule),
   },
   {
     path: 'dashboard',
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then(m => m.DashboardPageModule),
+      import('./dashboard/dashboard.module').then((m) => m.DashboardPageModule),
   },
   {
     path: 'profesor',
     loadChildren: () =>
-      import('./profesor/profesor.module').then(m => m.ProfesorPageModule),
+      import('./profesor/profesor.module').then((m) => m.ProfesorPageModule),
   },
   {
     path: 'contacto',
     loadChildren: () =>
-      import('./contacto/contacto.module').then(m => m.ContactoPageModule),
+      import('./contacto/contacto.module').then((m) => m.ContactoPageModule),
   },
   {
     path: 'registrarse',
     loadChildren: () =>
-      import('./registrarse/registrarse.module').then(m => m.RegistrarsePageModule),
+      import('./registrarse/registrarse.module').then(
+        (m) => m.RegistrarsePageModule
+      ),
   },
   {
     path: 'lista-alumnos',
-    loadChildren: () => import('./models/lista-alumnos/lista-alumnos.module').then( m => m.ListaAlumnosPageModule)
+    loadChildren: () =>
+      import('./models/lista-alumnos/lista-alumnos.module').then(
+        (m) => m.ListaAlumnosPageModule
+      ),
   },
 ];
 

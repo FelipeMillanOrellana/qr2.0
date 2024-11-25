@@ -11,7 +11,11 @@
         <ion-icon slot="start" name="call-outline"></ion-icon>
         Contacto
       </ion-item>
-      <ion-item routerLink="/home">
+      <ion-item (click)="goToListaAlumnos()">
+        <ion-icon slot="start" name="people-outline"></ion-icon>
+        Lista de Alumnos
+      </ion-item>
+      <ion-item (click)="logOut()">
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
         Cerrar Sesión
       </ion-item>
@@ -46,23 +50,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Generador de QR para el profesor -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Generador de Código QR</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <div *ngIf="qrData" style="margin-top: 20px; text-align: center;">
-        <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
-        <p>Escanea este código QR para obtener la información.</p>
-        <ion-button color="light" (click)="hideQRCode()">Ocultar QR</ion-button>
-      </div>
-      <ion-button expand="block" color="secondary" (click)="generateQRCode()">
-        Generar Código QR Personal
-      </ion-button>
-    </ion-card-content>
-  </ion-card>
-
   <!-- Registro y lista de asignaturas -->
   <ion-card>
     <ion-card-header>
@@ -83,6 +70,7 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Lista de asignaturas con generación de QR -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de Asignaturas</ion-card-title>
@@ -102,6 +90,17 @@
           </ion-button>
         </ion-item>
       </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Visualización del QR -->
+  <ion-card *ngIf="qrData">
+    <ion-card-header>
+      <ion-card-title>Código QR Generado</ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="text-align: center;">
+      <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+      <p>Escanea este código QR para obtener los detalles de la asignatura.</p>
     </ion-card-content>
   </ion-card>
 </ion-content>
