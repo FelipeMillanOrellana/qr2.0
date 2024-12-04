@@ -1,70 +1,48 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title class="heading">
-        Registro
-      </ion-card-title>
+      <ion-card-title>Registrar Usuario</ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <!-- Campo de Nombre -->
-      <ion-item class="inputContainer">
-        <ion-icon slot="start" name="person-outline" class="inputIcon"></ion-icon>
+      <!-- Nombre Completo -->
+      <ion-item>
         <ion-input
           [(ngModel)]="nombre"
-          placeholder="Nombre completo"
+          placeholder="Nombre Completo"
           type="text"
-          class="inputField"
         ></ion-input>
       </ion-item>
-
-      <!-- Campo de Email -->
-      <ion-item class="inputContainer">
-        <ion-icon slot="start" name="mail-outline" class="inputIcon"></ion-icon>
+      <!-- Nombre de Usuario -->
+      <ion-item>
         <ion-input
-          [(ngModel)]="email"
-          placeholder="Correo electrónico"
-          type="email"
-          class="inputField"
+          [(ngModel)]="usuario"
+          placeholder="Correo DuocUC"
+          type="text"
         ></ion-input>
       </ion-item>
-
-      <!-- Campo de Contraseña -->
-      <ion-item class="inputContainer">
-        <ion-icon slot="start" name="lock-closed-outline" class="inputIcon"></ion-icon>
+      <!-- Contraseña -->
+      <ion-item>
         <ion-input
           [(ngModel)]="password"
           placeholder="Contraseña"
           type="password"
-          class="inputField"
         ></ion-input>
       </ion-item>
-
-      <!-- Selección de Tipo de Usuario -->
-      <ion-list>
-        <ion-radio-group [(ngModel)]="tipoUsuario">
-          <ion-list-header>
-            <ion-label>Selecciona tu rol</ion-label>
-          </ion-list-header>
-          <ion-item>
-            <ion-label>Profesor</ion-label>
-            <ion-radio slot="start" value="profesor"></ion-radio>
-          </ion-item>
-          <ion-item>
-            <ion-label>Estudiante</ion-label>
-            <ion-radio slot="start" value="estudiante"></ion-radio>
-          </ion-item>
-        </ion-radio-group>
-      </ion-list>
-
+      <!-- Rol -->
+      <ion-item>
+        <ion-select
+          [(ngModel)]="role"
+          placeholder="Selecciona un rol"
+        >
+          <ion-select-option value="profesor">Profesor</ion-select-option>
+          <ion-select-option value="estudiante">Estudiante</ion-select-option>
+        </ion-select>
+      </ion-item>
       <!-- Botón de Registro -->
-      <ion-button
-        id="button"
-        (click)="registrarse()"
-        expand="full"
-        color="primary"
-      >
-        Registrarse
+      <ion-button expand="block" (click)="registrarUsuario()">Registrar</ion-button>
+      <!-- Botón para volver al Home -->
+      <ion-button expand="block" color="secondary" (click)="volverAlHome()">
+        Volver al Home
       </ion-button>
     </ion-card-content>
   </ion-card>

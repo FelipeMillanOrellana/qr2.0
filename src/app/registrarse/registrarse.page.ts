@@ -7,31 +7,60 @@ import { Router } from '@angular/router';
   styleUrls: ['./registrarse.page.scss'],
 })
 export class RegistrarsePage {
-  nombre: string = '';
-  email: string = '';
-  password: string = '';
-  tipoUsuario: string = '';
+  nombre: string = ''; // Variable para almacenar el nombre completo
+  usuario: string = ''; // Variable para almacenar el nombre de usuario
+  password: string = ''; // Variable para almacenar la contraseña
+  role: string = ''; // Variable para almacenar el rol
 
   constructor(private router: Router) {}
 
-  registrarse() {
-    if (!this.nombre || !this.email || !this.password || !this.tipoUsuario) {
-      alert('Por favor, complete todos los campos.');
+  /**
+   * Registra un nuevo usuario y lo guarda en el local storage.
+   */
+  registrarUsuario() {
+    if (!this.nombre || !this.usuario || !this.password || !this.role) {
+      alert('Por favor, completa todos los campos');
       return;
     }
 
-    // Simula el registro y redirige según el tipo de usuario
-    console.log('Datos de registro:', {
+    // Obtener usuarios registrados del Local Storage
+    const usuariosRegistrados = JSON.parse(
+      localStorage.getItem('usuarios') || '[]'
+    );
+
+    // Validar si el usuario ya existe
+    const usuarioExistente = usuariosRegistrados.find(
+      (user: any) => user.usuario === this.usuario
+    );
+
+    if (usuarioExistente) {
+      alert('El nombre de usuario ya está registrado. Por favor, elige otro.');
+      return;
+    }
+
+    // Agregar el nuevo usuario
+    usuariosRegistrados.push({
       nombre: this.nombre,
-      email: this.email,
+      usuario: this.usuario,
       password: this.password,
-      tipoUsuario: this.tipoUsuario,
+      role: this.role,
     });
 
-    if (this.tipoUsuario === 'profesor') {
-      this.router.navigate(['/profesor']);
-    } else if (this.tipoUsuario === 'estudiante') {
-      this.router.navigate(['/dashboard']);
-    }
+    // Guardar usuarios actualizados en el Local Storage
+    localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
+    alert('Usuario registrado con éxito');
+
+    // Limpiar los campos
+    this.nombre = '';
+    this.usuario = '';
+    this.password = '';
+    this.role = '';
+  }
+
+  /**
+   * Redirige al usuario a la página de inicio.
+   */
+  volverAlHome() {
+    this.router.navigate(['/home']); // Redirige a la página Home
   }
 }
