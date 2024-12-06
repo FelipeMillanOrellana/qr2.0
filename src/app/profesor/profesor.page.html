@@ -33,7 +33,6 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Bienvenida -->
   <ion-card class="welcome-card">
     <ion-card-header>
       <ion-card-title>
@@ -50,7 +49,6 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Registro y lista de asignaturas -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Registrar Asignatura</ion-card-title>
@@ -64,13 +62,36 @@
         <ion-label position="floating">Sección</ion-label>
         <ion-input [(ngModel)]="nuevaAsignatura.seccion"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="floating">Año</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.year" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Semestre</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.semester" type="number"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Campus</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.campus"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Código de la Asignatura</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.code"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">ID del Profesor</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.profesorId"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Modalidad</ion-label>
+        <ion-input [(ngModel)]="nuevaAsignatura.modality"></ion-input>
+      </ion-item>
       <ion-button expand="block" color="primary" (click)="registrarAsignatura()">
         Registrar
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- Lista de asignaturas con generación de QR -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de Asignaturas</ion-card-title>
@@ -93,14 +114,13 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Visualización del QR -->
-  <ion-card *ngIf="qrData">
-    <ion-card-header>
-      <ion-card-title>Código QR Generado</ion-card-title>
-    </ion-card-header>
-    <ion-card-content style="text-align: center;">
-      <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
-      <p>Escanea este código QR para obtener los detalles de la asignatura.</p>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+
+<ion-card *ngIf="qrData">
+  <ion-card-header>
+    <ion-card-title>Código QR Generado</ion-card-title>
+  </ion-card-header>
+  <ion-card-content style="text-align: center;">
+    <qrcode [qrdata]="qrData" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+    <ion-button expand="block" color="secondary" (click)="hideQRCode()">Ocultar QR</ion-button>
+  </ion-card-content>
+</ion-card>

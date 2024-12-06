@@ -1,7 +1,7 @@
 <ion-menu side="start" menuId="first" contentId="main-content">
   <ion-header>
-    <ion-toolbar>
-      <ion-title>Menú Principal</ion-title>
+    <ion-toolbar color="primary">
+      <ion-title class="menu-title">Menú Principal</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -9,29 +9,31 @@
     <ion-list>
       <!-- Contacto -->
       <ion-item (click)="goToContacto()">
-        <ion-icon slot="start" name="call-outline"></ion-icon>
+        <ion-icon slot="start" name="call-outline" color="success"></ion-icon>
         <ion-label>Contacto</ion-label>
       </ion-item>
 
       <!-- Cerrar Sesión -->
       <ion-item (click)="confirmLogout()">
-        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-icon slot="start" name="log-out-outline" color="danger"></ion-icon>
         <ion-label>Cerrar Sesión</ion-label>
       </ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
 
-<ion-content id="main-content">
+<ion-content id="main-content" class="main-content">
+  <!-- Encabezado -->
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="primary">
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <ion-title>Página Principal</ion-title>
+      <ion-title class="page-title">Página Principal</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  <!-- Tarjeta de Bienvenida -->
   <ion-card class="welcome-card">
     <ion-card-header>
       <ion-card-title>
@@ -52,16 +54,20 @@
   <!-- Sección para Escanear Código QR -->
   <ion-card id="attendance-section" class="attendance-card">
     <ion-card-header>
-      <ion-card-title>Ingresar Asistencia</ion-card-title>
+      <ion-card-title>
+        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+        Ingresar Asistencia
+      </ion-card-title>
     </ion-card-header>
     <ion-card-content>
       <div class="scanner-container">
         <ion-button
           expand="block"
-          color="primary"
+          color="success"
           (click)="startAttendance()"
           aria-label="Iniciar escaneo de código QR"
         >
+          <ion-icon name="scan-outline" slot="start"></ion-icon>
           Escanear Código QR
         </ion-button>
         <div id="reader" class="qr-reader"></div>
@@ -74,24 +80,3 @@
     </ion-card-content>
   </ion-card>
 
-  <!-- Lista de Alumnos Escaneados -->
-  <ion-card class="attendance-list-card">
-    <ion-card-header>
-      <ion-card-title>Lista de Alumnos</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list *ngIf="scannedStudents.length > 0; else emptyList">
-        <ion-item *ngFor="let student of scannedStudents">
-          <ion-label>
-            <h2>Código: {{ student.codigo }}</h2>
-            <p>Fecha: {{ student.fecha | date: 'short' }}</p>
-            <p>Coordenadas: {{ student.coordenadas.latitud }}, {{ student.coordenadas.longitud }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-      <ng-template #emptyList>
-        <p class="ion-text-center">No hay alumnos registrados aún.</p>
-      </ng-template>
-    </ion-card-content>
-  </ion-card>
-</ion-content>

@@ -50,11 +50,10 @@ export class RegistrarsePage {
     localStorage.setItem('usuarios', JSON.stringify(usuariosRegistrados));
     alert('Usuario registrado con éxito');
 
-    // Limpiar los campos
-    this.nombre = '';
-    this.usuario = '';
-    this.password = '';
-    this.role = '';
+    // Redirigir al Dashboard con el usuario registrado
+    this.router.navigate(['/dashboard'], {
+      queryParams: { usuario: this.usuario },
+    });
   }
 
   /**

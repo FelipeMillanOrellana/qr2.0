@@ -6,23 +6,36 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lista-alumnos.page.scss'],
 })
 export class ListaAlumnosPage implements OnInit {
-
-  // Arreglo para almacenar los estudiantes escaneados
   estudiantes: any[] = [];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    // Si tienes un servicio para obtener los datos escaneados, los puedes cargar aquí
+    this.cargarEstudiantes(); // Carga la lista al iniciar
   }
 
-  // Función para agregar un estudiante a la lista
-  agregarEstudiante(estudiante: any) {
-    this.estudiantes.push(estudiante);
+  /**
+   * Carga la lista de estudiantes desde localStorage
+   */
+  cargarEstudiantes() {
+    const storedEstudiantes = localStorage.getItem('scannedStudents');
+    this.estudiantes = storedEstudiantes ? JSON.parse(storedEstudiantes) : [];
+    console.log('Estudiantes cargados:', this.estudiantes); // Verificar datos cargados
+  }
+  
+
+  /**
+   * Elimina un estudiante de la lista
+   */
+  eliminarEstudiante(codigo: string) {
+    this.estudiantes = this.estudiantes.filter((estudiante) => estudiante.codigo !== codigo);
+    this.guardarEstudiantes();
   }
 
-  // Función para eliminar un estudiante
-  eliminarEstudiante(id: number) {
-    this.estudiantes = this.estudiantes.filter(estudiante => estudiante.id !== id);
+  /**
+   * Guarda la lista de estudiantes actualizada en localStorage
+   */
+  guardarEstudiantes() {
+    localStorage.setItem('scannedStudents', JSON.stringify(this.estudiantes));
   }
 }

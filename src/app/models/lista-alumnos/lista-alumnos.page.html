@@ -1,28 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Lista de Estudiantes Escaneados</ion-title>
+    <ion-title>Lista de Estudiantes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let estudiante of estudiantes">
-      <ion-label>
-        <h2>{{ estudiante.asignatura }}</h2>
-        <p>Sección: {{ estudiante.seccion }}</p>
-        <p>Sala: {{ estudiante.sala }}</p>
-        <p>Fecha: {{ estudiante.fecha }}</p>
-      </ion-label>
-      <ion-button color="danger" (click)="eliminarEstudiante(estudiante.id)">
-        Eliminar
-      </ion-button>
-    </ion-item>
-  </ion-list>
-
-  <!-- Mensaje cuando no hay estudiantes -->
-  <ion-card *ngIf="estudiantes.length === 0">
+  <ion-card>
     <ion-card-header>
-      <ion-card-title>No hay estudiantes registrados</ion-card-title>
+      <ion-card-title>Estudiantes Registrados</ion-card-title>
     </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let estudiante of estudiantes">
+          <ion-label>
+            <h2>Nombre: {{ estudiante.nombre }}</h2>
+            <p>Fecha: {{ estudiante.fecha | date: 'short' }}</p>
+          </ion-label>
+          <ion-button color="danger" (click)="eliminarEstudiante(estudiante.codigo)">
+            Eliminar
+          </ion-button>
+        </ion-item>
+      </ion-list>
+      <div *ngIf="estudiantes.length === 0" class="ion-text-center">
+        <p>No hay estudiantes registrados aún.</p>
+      </div>
+    </ion-card-content>
   </ion-card>
 </ion-content>

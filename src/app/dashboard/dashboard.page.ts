@@ -7,6 +7,7 @@ import {
   ToastController,
   NavController,
 } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { Html5Qrcode } from 'html5-qrcode';
 
 @Component({
@@ -26,6 +27,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private menu: MenuController,
     private navCtrl: NavController,
+    private router: Router,
     private loadingController: LoadingController,
     private alertController: AlertController,
     private toastController: ToastController
@@ -42,8 +44,8 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.loadScannedStudents();
   }
 
-  ionViewWillEnter() {
-    this.menu.enable(true, 'first');
+  goToContacto() {
+    this.router.navigate(['/contacto']); // Navega a la ruta de contacto
   }
 
   async confirmLogout() {
@@ -57,13 +59,6 @@ export class DashboardPage implements OnInit, OnDestroy {
     });
     await alert.present();
   }
-
-  goToContacto() {
-    this.navCtrl.navigateForward(['/contacto'], {
-      queryParams: { from: 'dashboard', usuario: this.usuario },
-    });
-  }
-
   async startAttendance() {
     if (this.isScanning || !this.html5QrCode) return;
     this.isScanning = true;
@@ -91,33 +86,72 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   async handleScanSuccess(decodedText: string) {
-    const studentData = {
-      codigo: decodedText,
-      fecha: new Date().toISOString(),
-      coordenadas: { latitud: this.latitud, longitud: this.longitud },
-    };
+    try {
+      const data = JSON.parse(decodedText); // Decodifica el JSON del QR
 
-    if (!this.scannedStudents.some((s) => s.codigo === decodedText)) {
-      this.scannedStudents.push(studentData);
-      this.saveToLocalStorage('scannedStudents', this.scannedStudents);
-      await this.presentToast('Asistencia registrada exitosamente.');
-    } else {
-      await this.presentToast('Este estudiante ya ha registrado asistencia.');
+      if (!data.nombre || data.nombre.trim() === '') {
+        this.presentToast('El QR escaneado no contiene un nombre válido.');
+        this.stopScanning();
+        return;
+      }
+
+      const alert = await this.alertController.create({
+        header: 'Registrar asistencia',
+        message: `¿Registrar asistencia para ${data.nombre}?`,
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            handler: () => {
+              this.presentToast('Registro cancelado.');
+            },
+          },
+          {
+            text: 'Registrar',
+            handler: () => {
+              const studentData = {
+                nombre: data.nombre.trim(),
+                fecha: new Date().toISOString(),
+                coordenadas: { latitud: this.latitud, longitud: this.longitud },
+              };
+
+              // Verifica si ya existe un registro para este estudiante
+              if (!this.scannedStudents.some((s) => s.nombre === data.nombre)) {
+                this.scannedStudents.push(studentData);
+                localStorage.setItem(
+                  'scannedStudents',
+                  JSON.stringify(this.scannedStudents)
+                );
+                this.presentToast(`Asistencia registrada para ${data.nombre}.`);
+              } else {
+                this.presentToast('Este estudiante ya ha registrado asistencia.');
+              }
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    } catch (error) {
+      this.presentToast('El QR escaneado no contiene datos válidos.');
+      console.error('Error al procesar el QR:', error);
+    } finally {
+      this.stopScanning();
     }
-
-    this.stopScanning();
   }
 
   handleScanError(errorMessage: string) {
-    console.log(`Error en el escaneo: ${errorMessage}`);
+    console.error(`Error en el escaneo: ${errorMessage}`);
     this.presentToast('No se pudo leer el código QR. Intenta de nuevo.');
   }
 
-  async stopScanning() {
-    if (this.html5QrCode && this.isScanning) {
-      await this.html5QrCode.stop();
-      this.isScanning = false;
-    }
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   loadScannedStudents() {
@@ -125,8 +159,11 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.scannedStudents = data ? JSON.parse(data) : [];
   }
 
-  saveToLocalStorage(key: string, data: any) {
-    localStorage.setItem(key, JSON.stringify(data));
+  async stopScanning() {
+    if (this.html5QrCode && this.isScanning) {
+      await this.html5QrCode.stop();
+      this.isScanning = false;
+    }
   }
 
   async obtenerCoordenadas() {
@@ -153,13 +190,12 @@ export class DashboardPage implements OnInit, OnDestroy {
     }
   }
 
-  async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({ header, message, buttons: ['OK'] });
-    await alert.present();
-  }
-
   async presentToast(message: string) {
-    const toast = await this.toastController.create({ message, duration: 3000, position: 'bottom' });
+    const toast = await this.toastController.create({
+      message,
+      duration: 3000,
+      position: 'bottom',
+    });
     await toast.present();
   }
 
